@@ -1,16 +1,10 @@
-# This is a sample Python script.
+KEY = 3
+letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+print(letters[(letters.find("Z")+3) % len(letters)] )
+inp = input()
+output = ""
+for i in range(0, len(inp)):
+    output += letters[(letters.find(inp[i])+3 ) % len(letters) ]
+print(output)
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
-if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
