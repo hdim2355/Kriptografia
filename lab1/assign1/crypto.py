@@ -9,7 +9,11 @@ SUNet: <SUNet ID>
 
 Replace this with a description of the program.
 """
+import random
+import math
 import utils
+from lab1.assign1.utils import coprime
+
 
 # Caesar Cipher
 
@@ -27,6 +31,7 @@ def encrypt_caesar(plaintext):
     for i in range(0, len(plaintext)):
         output += letters[(letters.find(plaintext[i]) + KEY) % len(letters)]
     return output
+
 
 def decrypt_caesar(ciphertext):
     """Decrypt a ciphertext using a Caesar cipher.
@@ -102,7 +107,19 @@ def generate_private_key(n=8):
 
     @return 3-tuple `(w, q, r)`, with `w` a n-tuple, and q and r ints.
     """
-    raise NotImplementedError  # Your implementation here
+    w = [1]
+    for i in range(1, n):
+        total = sum(w) + 1
+        w.append(total)
+    # print(f"{w}\n{utils.is_superincreasing(w)}")
+    total = sum(w)
+    q = random.randint(total + 1, total * 2)
+    r = random.randint(2, q-1)
+    print(w, q, r)
+    while not math.gcd(r,q):
+        r = random.randint(2, q - 1)
+    return [tuple(w), int(q), int(r)]
+
 
 def create_public_key(private_key):
     """Create a public key corresponding to the given private key.
@@ -118,6 +135,10 @@ def create_public_key(private_key):
 
     @return n-tuple public key
     """
+    # print(f'ha:{private_key[0]}')
+    w,q,r = private_key
+    beta = [r*w_i % q for w_i in w]
+    return tuple(beta)
     raise NotImplementedError  # Your implementation here
 
 
@@ -141,6 +162,7 @@ def encrypt_mh(message, public_key):
     """
     raise NotImplementedError  # Your implementation here
 
+
 def decrypt_mh(message, private_key):
     """Decrypt an incoming message using a private key
 
@@ -160,4 +182,3 @@ def decrypt_mh(message, private_key):
     @return bytearray or str of decrypted characters
     """
     raise NotImplementedError  # Your implementation here
-
