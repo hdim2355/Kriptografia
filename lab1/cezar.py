@@ -74,4 +74,27 @@ def decrypt_railfence(ciphertext, rails):
 
     return output
 
-print(decrypt_railfence("WECRLTEERDSOEEFEAOCAIVDEN",3))
+# print(decrypt_railfence("WECRLTEERDSOEEFEAOCAIVDEN",3))
+# print("\n\n")
+#
+# print(encrypt_scytale("HELLO", 3))
+# print(encrypt_scytale("WEAREDISCOVERED", 4))
+# print(encrypt_scytale("ATTACKATDAWN", 5))
+#
+# print("\n")
+#
+# print(decrypt_scytale("HLOELX", 3))
+# print(decrypt_scytale("WIEOCCREDDSAEVREX", 4))
+# print(decrypt_scytale("ATCADWATAKNTX", 5))
+
+print("\n\n\n")
+
+print(encrypt_railfence("WEAREDISCOVEREDFLEEATONCE", 3))
+print(encrypt_railfence("DEFENDTHEEASTWALLOFTHECASTLE", 4))
+print(encrypt_railfence("HELLOWORLD", 2))
+
+print("\n")
+
+print(decrypt_railfence("WECRLTEERDSOEEFEAOCAIVDEN", 3))
+print(decrypt_railfence("DTTFSEDHSWOTATFNEAALHCLEELEE", 4))
+print(decrypt_railfence("HLOOLELWRD", 2))

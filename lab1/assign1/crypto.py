@@ -23,14 +23,19 @@ def encrypt_caesar(plaintext):
     Add more implementation details here.
     """
     # raise NotImplementedError  # Your implementation here
-    # plaintext = plaintext.upper()
-    # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    letters = ''.join(chr(i) for i in range(256))
-    KEY = 3
-    output = ""
-    for i in range(0, len(plaintext)):
-        output += letters[(letters.find(plaintext[i]) + KEY) % len(letters)]
-    return output
+    if not plaintext:
+        return ""
+    try:
+        # plaintext = plaintext.upper()
+        # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letters = ''.join(chr(i) for i in range(256))
+        key = 3
+        output = ""
+        for i in range(0, len(plaintext)):
+            output += letters[(letters.find(plaintext[i]) + key) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Caesar encryption failed: {str(e)}")
 
 
 def decrypt_caesar(ciphertext):
@@ -38,15 +43,19 @@ def decrypt_caesar(ciphertext):
 
     Add more implementation details here.
     """
-    # ciphertext = ciphertext.upper()
-    # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    letters = ''.join(chr(i) for i in range(256))
-    KEY = 3
-    output = ""
-    for i in range(0, len(ciphertext)):
-        output += letters[(letters.find(ciphertext[i]) - KEY) % len(letters)]
-    return output
-    raise NotImplementedError  # Your implementation here
+    if not ciphertext:
+        return ""
+    try:
+        # ciphertext = ciphertext.upper()
+        # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letters = ''.join(chr(i) for i in range(256))
+        KEY = 3
+        output = ""
+        for i in range(0, len(ciphertext)):
+            output += letters[(letters.find(ciphertext[i]) - KEY) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Caesar decryption failed: {str(e)}")
 
 
 # Vigenere Cipher
@@ -56,33 +65,41 @@ def encrypt_vigenere(plaintext, keyword):
 
     Add more implementation details here.
     """
-    output = ""
-    while len(plaintext) > len(keyword):
-        keyword += keyword
-    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    for i in range(len(plaintext)):
-        plval = letters.find(plaintext[i])
-        keyval = letters.find(keyword[i])
-        output += letters[(plval + keyval) % len(letters)]
-    return output
-    # raise NotImplementedError  # Your implementation here
-
+    if not plaintext:
+        return ""
+    try:
+        output = ""
+        while len(plaintext) > len(keyword):
+            keyword += keyword
+        letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        for i in range(len(plaintext)):
+            plval = letters.find(plaintext[i])
+            keyval = letters.find(keyword[i])
+            output += letters[(plval + keyval) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Railfence encryption failed: {str(e)}")
 
 def decrypt_vigenere(ciphertext, keyword):
     """Decrypt ciphertext using a Vigenere cipher with a keyword.
 
     Add more implementation details here.
     """
-    while len(ciphertext) > len(keyword):
-        keyword += keyword
-    letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    output = ""
-    for i in range(len(ciphertext)):
-        cival = letters.find(ciphertext[i])
-        keyval = letters.find(keyword[i])
-        output += letters[(cival - keyval) % len(letters)]
-    return output
-    raise NotImplementedError  # Your implementation here
+    if not ciphertext:
+        return ""
+    try:
+        while len(ciphertext) > len(keyword):
+            keyword += keyword
+        letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        output = ""
+        for i in range(len(ciphertext)):
+            cival = letters.find(ciphertext[i])
+            keyval = letters.find(keyword[i])
+            output += letters[(cival - keyval) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Railfence decryption failed: {str(e)}")
+
 
 
 # Merkle-Hellman Knapsack Cryptosystem
@@ -182,3 +199,96 @@ def decrypt_mh(message, private_key):
     @return bytearray or str of decrypted characters
     """
     raise NotImplementedError  # Your implementation here
+
+
+def encrypt_scytale(plaintext, circumference):
+    if not plaintext:
+        return ""
+    try:
+        # plaintext.upper()
+        while len(plaintext) % circumference != 0:
+            plaintext += "X"
+        cols = len(plaintext) // circumference #4
+        output = ""
+        for i in range(circumference):
+            for j in range(cols):
+                output += plaintext[j * circumference + i]
+        return output
+    except Exception as e:
+        raise ValueError(f"Scytale encryption failed: {str(e)}")
+
+def decrypt_scytale(ciphertext, circumference):
+    if not ciphertext:
+        return ""
+    try:
+        while len(ciphertext) % circumference != 0:
+            ciphertext += "X"
+        cols = len(ciphertext) // circumference
+        output = ""
+        for i in range(circumference-1,0,-1):
+            for j in range(cols,-1,-1):
+                output += ciphertext[j * cols + i-1]
+        return output[::-1]
+    except Exception as e:
+        raise ValueError(f"Scytale decryption failed: {str(e)}")
+
+def encrypt_railfence(plaintext,rails):
+    if not plaintext:
+        return ""
+    try:
+        lists = [[] for _ in range(rails)]
+        listIndex = 0
+        direction = 1
+        for char in plaintext:
+            lists[listIndex].append(char)
+            if listIndex == 0:
+                direction = 1
+            elif listIndex == rails - 1:
+                direction = -1
+            listIndex += direction
+        output = ""
+        for list in lists:
+            for char in list:
+                output += char
+        return output
+    except Exception as e:
+        raise ValueError(f"Railfence encryption failed: {str(e)}")
+
+def decrypt_railfence(ciphertext, rails):
+    if not ciphertext:
+        return ""
+    try:
+        rail_lengths = [0] * rails
+        listIndex = 0
+        direction = 1
+
+        for _ in range(len(ciphertext)):
+            rail_lengths[listIndex] += 1
+            if listIndex == 0:
+                direction = 1
+            elif listIndex == rails - 1:
+                direction = -1
+            listIndex += direction
+        lists = [[] for _ in range(rails)]
+
+        index = len(ciphertext) - 1
+        for rail in range(rails - 1, -1, -1):
+            for _ in range(rail_lengths[rail]):
+                lists[rail].append(ciphertext[index])
+                index -= 1
+
+        output = ""
+        listIndex = 0
+        direction = 1
+
+        for _ in range(len(ciphertext)):
+            output += lists[listIndex].pop()
+            if listIndex == 0:
+                direction = 1
+            elif listIndex == rails - 1:
+                direction = -1
+            listIndex += direction
+
+        return output
+    except Exception as e:
+        raise ValueError(f"Railfence decryption failed: {str(e)}")
