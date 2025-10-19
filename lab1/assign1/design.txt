@@ -1,14 +1,29 @@
-Name: <YOUR NAME>
-SUNet: <SUNet ID>
+Name: <Holub David>
+SUNet: <hdim2355>
 
 In 1-3 sentences per section, comment on your approach to each of the parts of the assignment. What was your high-level strategy? How did you translate that into code? Did you make use of any Pythonic practices? We want you to reflect on your coding style, and whether you're making full use of the utilities provides.
 
 
 # Caesar Cipher
-
+Encrpyt: Mindegyik betut a KEY-ertekket odebb toltam es az lett a kovetkezo betu
+Decrypt: Mindegyik betut a KEY-ertekket vissza toltam es az lett a kovetkezo betu
 
 # Vigenere Cipher
-
+Encrypt: Hasznaltam egy szotarat,ahol mindegyik karakternek megkerestem az indexet, a neki megfelelo
+key indexet es megkerestem a szotarbol,osszeadtam a kettot es megkaptam a kovetkezo karaktert.
+Decrypt:Ugyanigy,csak jelen esetben kivontam a kettot egymasbol , hogy megkapjam az eredeti szot
 
 # Merkle-Hellman Knapsack Cryptosystem
 
+#Scytale
+Encrypt: Annyi X-et adtam hozza, hogy a szo hossza / circumference legyen egesz szam.
+Aztan foatlo keplettel megadtam a kovetkezo elemet.
+Decrypt:Annyi X-et adtam hozza, hogy a szo hossza / circumference legyen egesz szam.
+Csinaltam annyi listat, amennyi lett ennek az osztasnak az eredmenye, es mindegyik listahoz
+hozzaadtam a kovetkezo karaktert.A vegen az osszes lista elemet osszeadtam indexek szerint novekvo sorrendbe
+
+#Railfence
+Encrypt:letrehoztam annyi listat, ahany rail volt es hozzaadtam cik-cak-ozva az elemeket mindegyik lista kapta
+a neki jaro elemet.
+Decrypt:Hasonloat,hogy lassam melyik elem melyik sinre kerul,majd hatulrol vettem kifele az elemeket(forditott sorrendbe)
+hogy megkapjam az eredeti szot.

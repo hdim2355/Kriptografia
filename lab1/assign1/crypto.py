@@ -72,13 +72,19 @@ def encrypt_vigenere(plaintext, keyword):
         while len(plaintext) > len(keyword):
             keyword += keyword
         letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        plaintext = plaintext.upper()
+        keyword = keyword.upper()
         for i in range(len(plaintext)):
-            plval = letters.find(plaintext[i])
-            keyval = letters.find(keyword[i])
-            output += letters[(plval + keyval) % len(letters)]
+            if plaintext[i] != " ":
+                plval = letters.find(plaintext[i])
+                keyval = letters.find(keyword[i])
+                output += letters[(plval + keyval) % len(letters)]
+            else:
+                output += plaintext[i]
         return output
     except Exception as e:
-        raise ValueError(f"Railfence encryption failed: {str(e)}")
+        raise ValueError(f"Vigenere encryption failed: {str(e)}")
+
 
 def decrypt_vigenere(ciphertext, keyword):
     """Decrypt ciphertext using a Vigenere cipher with a keyword.
@@ -91,15 +97,19 @@ def decrypt_vigenere(ciphertext, keyword):
         while len(ciphertext) > len(keyword):
             keyword += keyword
         letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        ciphertext = ciphertext.upper()
+        keyword = keyword.upper()
         output = ""
         for i in range(len(ciphertext)):
-            cival = letters.find(ciphertext[i])
-            keyval = letters.find(keyword[i])
-            output += letters[(cival - keyval) % len(letters)]
+            if ciphertext[i] != " ":
+                cival = letters.find(ciphertext[i])
+                keyval = letters.find(keyword[i])
+                output += letters[(cival - keyval) % len(letters)]
+            else:
+                output += ciphertext[i]
         return output
     except Exception as e:
-        raise ValueError(f"Railfence decryption failed: {str(e)}")
-
+        raise ValueError(f"Vigenere cypher decryption failed: {str(e)}")
 
 
 # Merkle-Hellman Knapsack Cryptosystem
@@ -131,9 +141,9 @@ def generate_private_key(n=8):
     # print(f"{w}\n{utils.is_superincreasing(w)}")
     total = sum(w)
     q = random.randint(total + 1, total * 2)
-    r = random.randint(2, q-1)
+    r = random.randint(2, q - 1)
     print(w, q, r)
-    while not math.gcd(r,q):
+    while not math.gcd(r, q):
         r = random.randint(2, q - 1)
     return [tuple(w), int(q), int(r)]
 
@@ -153,8 +163,8 @@ def create_public_key(private_key):
     @return n-tuple public key
     """
     # print(f'ha:{private_key[0]}')
-    w,q,r = private_key
-    beta = [r*w_i % q for w_i in w]
+    w, q, r = private_key
+    beta = [r * w_i % q for w_i in w]
     return tuple(beta)
     raise NotImplementedError  # Your implementation here
 
@@ -205,17 +215,18 @@ def encrypt_scytale(plaintext, circumference):
     if not plaintext:
         return ""
     try:
-        # plaintext.upper()
         while len(plaintext) % circumference != 0:
             plaintext += "X"
-        cols = len(plaintext) // circumference #4
+        cols = len(plaintext) // circumference  # 4
         output = ""
         for i in range(circumference):
             for j in range(cols):
                 output += plaintext[j * circumference + i]
         return output
+
     except Exception as e:
         raise ValueError(f"Scytale encryption failed: {str(e)}")
+
 
 def decrypt_scytale(ciphertext, circumference):
     if not ciphertext:
@@ -224,15 +235,20 @@ def decrypt_scytale(ciphertext, circumference):
         while len(ciphertext) % circumference != 0:
             ciphertext += "X"
         cols = len(ciphertext) // circumference
+        lists = [[] for _ in range(len(ciphertext) // circumference)]
+        for i in range(circumference):
+            for j in range(len(ciphertext) // circumference):
+                lists[j].append(ciphertext[i * cols + j])
         output = ""
-        for i in range(circumference-1,0,-1):
-            for j in range(cols,-1,-1):
-                output += ciphertext[j * cols + i-1]
-        return output[::-1]
+        for list in lists:
+            for char in list:
+                output += char
+        return output.replace("X", "")
     except Exception as e:
         raise ValueError(f"Scytale decryption failed: {str(e)}")
 
-def encrypt_railfence(plaintext,rails):
+
+def encrypt_railfence(plaintext, rails):
     if not plaintext:
         return ""
     try:
@@ -253,6 +269,7 @@ def encrypt_railfence(plaintext,rails):
         return output
     except Exception as e:
         raise ValueError(f"Railfence encryption failed: {str(e)}")
+
 
 def decrypt_railfence(ciphertext, rails):
     if not ciphertext:
@@ -292,3 +309,34 @@ def decrypt_railfence(ciphertext, rails):
         return output
     except Exception as e:
         raise ValueError(f"Railfence decryption failed: {str(e)}")
+
+
+def encrypt_caesar_binary(data):
+    key=3
+    if not data:
+        return b""
+    try:
+        encrypted_bytes = bytearray()
+        for byte in data:
+            encrypted_byte = (byte + key) % 256
+            encrypted_bytes.append(encrypted_byte)
+
+        return bytes(encrypted_bytes)
+
+    except Exception as e:
+        raise ValueError(f"Binary Caesar encryption failed: {str(e)}")
+
+
+def decrypt_caesar_binary(data, key=3):
+    if not data:
+        return b""
+    try:
+        decrypted_bytes = bytearray()
+        for byte in data:
+            decrypted_byte = (byte - key) % 256
+            decrypted_bytes.append(decrypted_byte)
+
+        return bytes(decrypted_bytes)
+
+    except Exception as e:
+        raise ValueError(f"Binary Caesar decryption failed: {str(e)}")
