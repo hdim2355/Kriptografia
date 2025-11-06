@@ -1,3 +1,43 @@
+def encrypt_caesar(plaintext):
+    """Encrypt plaintext using a Caesar cipher.
+
+    Add more implementation details here.
+    """
+    # raise NotImplementedError  # Your implementation here
+    if not plaintext:
+        return ""
+    try:
+        # plaintext = plaintext.upper()
+        # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letters = ''.join(chr(i) for i in range(256))
+        key = 3
+        output = ""
+        for i in range(0, len(plaintext)):
+            output += letters[(letters.find(plaintext[i]) + key) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Caesar encryption failed: {str(e)}")
+
+
+def decrypt_caesar(ciphertext):
+    """Decrypt a ciphertext using a Caesar cipher.
+
+    Add more implementation details here.
+    """
+    if not ciphertext:
+        return ""
+    try:
+        # ciphertext = ciphertext.upper()
+        # letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        letters = ''.join(chr(i) for i in range(256))
+        KEY = 3
+        output = ""
+        for i in range(0, len(ciphertext)):
+            output += letters[(letters.find(ciphertext[i]) - KEY) % len(letters)]
+        return output
+    except Exception as e:
+        raise ValueError(f"Caesar decryption failed: {str(e)}")
+
 def encrypt_vigenere(plaintext, keyword):
     """Encrypt plaintext using a Vigenere cipher with a keyword.
 
@@ -131,17 +171,28 @@ def decrypt_railfence(ciphertext, rails):
 # print(decrypt_railfence("WECRLTEERDSOEEFEAOCAIVDEN",3))
 # print("\n\n")
 #
-# print(encrypt_scytale("HELLO", 3))
-# print(encrypt_scytale("WEAREDISCOVERED", 4))
-# print(encrypt_scytale("ATTACKATDAWN", 6))
-#
-# print("\n")
-#
-# print(decrypt_scytale("HLEOL", 3))
-# print(decrypt_scytale("WECREDOEAIVDRSEX", 4))
-# print(decrypt_scytale("AATTTDAACWKN", 6))
 
 
+print(f"HELLO={encrypt_caesar("HELLO")}")
+print(f"WEAREDISCOVERED={encrypt_caesar("WEAREDISCOVERED")}")
+print(f"ATTACKATDAWN={encrypt_caesar("ATTACKATDAWN")}")
+
+print("\n")
+print(f"KHOOR={decrypt_caesar("KHOOR")}")
+print(f"ZHDUHGLVFRYHUHG={decrypt_caesar("ZHDUHGLVFRYHUHG")}")
+print(f"DWWDFNDWGDZQ={decrypt_caesar("DWWDFNDWGDZQ")}")
+
+print("\n")
+
+print(f"HELLO={encrypt_scytale("HELLO", 3)}")
+print(f"WEAREDISCOVERED={encrypt_scytale("WEAREDISCOVERED", 4)}")
+print(f"ATTACKATDAWN={encrypt_scytale("ATTACKATDAWN", 6)}")
+
+print("\n")
+
+print(f"HLEOL={decrypt_scytale("HLEOL", 3)}")
+print(f"WECREDOEAIVDRSEX={decrypt_scytale("WECREDOEAIVDRSEX", 4)}")
+print(f"AATTTDAACWKN={decrypt_scytale("AATTTDAACWKN", 6)}")
 
 # print("\n\n\n")
 #
@@ -168,28 +219,16 @@ print(f"GEEKSFORGEEKS={encrypt_vigenere("GEEKSFORGEEKS", "AYUSH")}")
 print(f"GCYCZFMLYLEIM={decrypt_vigenere("GCYCZFMLYLEIM", "AYUSH")}")
 
 
-# Teszt fájlok létrehozása Pythonnal
 def create_test_files():
-    """Create test binary files for demonstration."""
-
-    # 1. Egyszerű szöveges fájl
     with open('assign1/test.bin', 'wb') as f:
         f.write(b"Hello Binary World!\nThis is a test file.")
-
-    # 2. Numerikus adatok
     with open('assign1/numbers.bin', 'wb') as f:
         f.write(b"0123456789\nABCDEF")
-
-    # 3. Speciális karakterek
     with open('assign1/special.bin', 'wb') as f:
         f.write(b"!@#$%^&*()\nTEST{123}")
-
-    # 4. Tiszta byte-ok
     with open('assign1/bytes.bin', 'wb') as f:
         f.write(bytes([65, 66, 67, 68, 69, 10, 97, 98, 99, 100, 101]))
-
     print("Test files created successfully!")
-
 
 # if __name__ == '__main__':
 #     create_test_files()
