@@ -1,0 +1,7 @@
+{
+  "block_size_bits": 8,
+  "mode": "CBC",
+  "iv": 85,
+  "padding": "zero",
+  "key": 85
+}
