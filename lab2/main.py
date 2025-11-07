@@ -2,6 +2,7 @@ import os
 from ECB import ECB
 from lab2.CBC import CBC
 from CFB import CFB
+from OFB import OFB
 
 def create_random_binary_file(filename, size_in_mb=1):
     size_in_bytes = size_in_mb * 16
@@ -45,3 +46,9 @@ cbc = CFB(blocks,8,0x11)
 print(blocks)
 print(cbc.encode())
 print(cbc.decode())
+
+print("OFB:")
+ofb = OFB(blocks,8,0x11)
+print(blocks)
+print(ofb.encode())
+print(ofb.decode())
