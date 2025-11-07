@@ -8,7 +8,14 @@ class ECB:
         for data in self.__blocks:
             block_byte_i = bytes([b ^ key_byte for b in data])
             new_blocks.append(block_byte_i)
+        self.__blocks = new_blocks
         return new_blocks
 
-    def decode(self):
-        return
+    def decode(self,key_byte=0x55):
+        new_blocks = []
+        for data in self.__blocks:
+            block_byte_i = bytes([b ^ key_byte for b in data])
+            new_blocks.append(block_byte_i)
+        self.__blocks = new_blocks
+        return new_blocks
+
