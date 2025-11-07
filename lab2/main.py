@@ -3,6 +3,7 @@ from ECB import ECB
 from lab2.CBC import CBC
 from CFB import CFB
 from OFB import OFB
+from CTR import CTR
 
 def create_random_binary_file(filename, size_in_mb=1):
     size_in_bytes = size_in_mb * 16
@@ -52,3 +53,9 @@ ofb = OFB(blocks,8,0x11)
 print(blocks)
 print(ofb.encode())
 print(ofb.decode())
+
+print("CTR:")
+ctr = CTR(blocks,8,0x11)
+print(blocks)
+print(ctr.encode())
+print(ctr.decode())
