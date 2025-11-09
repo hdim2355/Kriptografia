@@ -1,13 +1,15 @@
-import os
-from ECB import ECB
-from lab2.CBC import CBC
-from CFB import CFB
-from OFB import OFB
-from CTR import CTR
+from lab2.methods.ECB import ECB
+from lab2.methods.CBC import CBC
+from lab2.methods.CFB import CFB
+from lab2.methods.OFB import OFB
+from lab2.methods.CTR import CTR
+from lab2.Padding import Padding
 from Crypter import Crypter
+import os
+
 
 def create_random_binary_file(filename, size_in_mb=1):
-    size_in_bytes = size_in_mb * 16
+    size_in_bytes = size_in_mb * 1+1
     random_data = os.urandom(size_in_bytes)
     with open(filename, 'wb') as file:
         file.write(random_data)
@@ -63,10 +65,78 @@ def test():
     print(ctr.encode())
     print(ctr.decode())
 
-# create_random_binary_file('input.bin')
-# create_random_binary_file('decrypted.bin')
-# create_random_binary_file('encrypted.bin')
+def test2():
+    create_random_binary_file('input.bin')
+    # create_random_binary_file('decrypted.bin')
+    # create_random_binary_file('encrypted.bin')
 
-crypter = Crypter('config.json')
-crypter.encrypt_file('input.bin', 'encrypted.bin')
-crypter.decrypt_file('encrypted.bin', 'decrypted.bin')
+    crypter = Crypter('resources/config.json')
+    crypter.encrypt_file('input.bin', 'encrypted.bin')
+    crypter.decrypt_file('encrypted.bin', 'decrypted.bin')
+
+def test3():
+    data = read_file_to_bytes('input.bin')
+    print(data.hex())
+    pading = Padding()
+    new_data = pading.zero_padding(data,8)
+    print(new_data.hex())
+    new_data = pading.zero_unpadding(new_data)
+    print(new_data.hex())
+
+def main():
+    input_file = 'picture_test/fire.png'
+
+    if not os.path.exists(input_file):
+        print(f"Hiba: A '{input_file}' fájl nem található!")
+        return
+
+    mode = 'ecb'
+
+    config_file = f'resources/config_{mode}.json'
+    if not os.path.exists(config_file):
+        print(f"Hiba, nincs ilyen file'{config_file}!")
+        return
+
+    crypter = Crypter(config_file)
+
+    try:
+        with open(input_file, 'rb') as f:
+            data = f.read()
+    except Exception as e:
+        print(f"Hiba olvasas: {e}")
+        return
+
+    try:
+        encrypted_data = crypter.process_blocks(data, 'encode', 'XOR')
+    except Exception as e:
+        print(f"Hiba: {e}")
+        return
+
+    encrypted_file = 'picture_test/fire_encrypted.bin'
+    try:
+        with open(encrypted_file, 'wb') as f:
+            f.write(encrypted_data)
+    except Exception as e:
+        print(f"Hiba: {e}")
+        return
+
+    try:
+        decrypted_data = crypter.process_blocks(encrypted_data, 'decode', 'XOR')
+    except Exception as e:
+        print(f"Hiba: {e}")
+        return
+
+    decrypted_file = 'picture_test/fire_decrypted.png'
+    try:
+        with open(decrypted_file, 'wb') as f:
+            f.write(decrypted_data)
+    except Exception as e:
+        print(f"Hiba: {e}")
+        return
+
+    print(f"Original: {input_file}")
+    print(f"Titkolt: {encrypted_file}")
+    print(f"Fejtett: {decrypted_file}")
+
+if __name__ == '__main__':
+    main()

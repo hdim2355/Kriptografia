@@ -12,7 +12,7 @@ class Padding:
 
     def schneier_padding(self, data, block_size):
         pad = block_size - (len(data) % block_size)
-        return data + bytes([pad] * pad) if len(data) % block_size != 0 else data
+        return data + bytes([pad] * pad)
 
     def zero_unpadding(self, data):
         return data.rstrip(b'\x00')
@@ -25,8 +25,12 @@ class Padding:
         return data
 
     def schneier_unpadding(self, data):
-        if data:
-            padding_length = data[-1]
-            if 0 < padding_length <= len(data):
+        if not data:
+            return data
+        padding_length = data[-1]
+        if 0 < padding_length <= len(data) and padding_length <= 256:
+            expected_padding = bytes([padding_length] * padding_length)
+            if data[-padding_length:] == expected_padding:
                 return data[:-padding_length]
+
         return data

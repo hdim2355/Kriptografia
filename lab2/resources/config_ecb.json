@@ -1,0 +1,6 @@
+{
+  "block_size_bits": 128,
+  "mode": "ECB",
+  "padding": "zero",
+  "key": 85
+}

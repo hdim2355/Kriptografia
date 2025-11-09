@@ -1,8 +1,10 @@
 class CTR:
-    def __init__(self, blocks, block_size, iv):
+    def __init__(self, blocks, block_size, iv, encrypt_func=None, decrypt_func=None):
         self.__blocks = blocks
         self.__block_size = block_size
         self.__iv = iv
+        self.custom_E_k = encrypt_func
+        self.custom_D_k = decrypt_func
 
     def generate_N(self):
         N_sequence = []
@@ -18,7 +20,11 @@ class CTR:
         for i in range(len(self.__blocks)):
             data = self.__blocks[i]
             N_block = N_sequence[i]
-            encrypted_N = self.E_k(N_block, key_byte)
+            # encrypted_N = self.E_k(N_block, key_byte)
+            if self.custom_E_k:
+                encrypted_N = self.custom_E_k(N_block, key_byte)
+            else:
+                encrypted_N = self.E_k(N_block, key_byte)
             cipher_bytes = bytearray()
             for j in range(len(data)):
                 cipher_bytes.append(data[j] ^ encrypted_N[j])

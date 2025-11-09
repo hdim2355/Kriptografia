@@ -1,0 +1,7 @@
+{
+  "block_size_bits": 128,
+  "mode": "CTR",
+  "iv": 42,
+  "padding": "schneier",
+  "key": 85
+}
