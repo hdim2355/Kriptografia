@@ -53,7 +53,7 @@ def run_comprehensive_tests():
             print(f"  {result['algorithm']:8} - "
                   f"Enc: {result['encrypt_time']:6.4f}s - "
                   f"Dec: {result['decrypt_time']:6.4f}s - "
-                  f"{'✅' if result['success'] else '❌'}")
+                  f"{'JO' if result['success'] else 'NEM JO'}")
 
 if __name__ == "__main__":
     run_comprehensive_tests()
